@@ -13,87 +13,87 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
+      body: SafeArea(
+        child: Container(
+          color: Colors.white,
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                children: [
 
-                const SizedBox(height: 40),
+                  const SizedBox(height: 40),
 
-                Container(
-                  padding: EdgeInsets.all(25),
-                  margin: EdgeInsets.symmetric(horizontal: 25),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                  ),
-                  child: Column(
-                    children: [
-                      InputFile(
-                        label: "First Name",
-                        controller: firstNameController,
-                      ),
-                      InputFile(
-                        label: "Last Name",
-                        controller: lastNameController,
-                      ),
-                      InputFile(
-                        label: "Phone Number",
-                        controller: phoneNumberController,
-                      ),
-                      InputFile(
-                        label: "Email",
-                        controller: emailController,
-                      ),
-                      InputFile(
-                        label: "Password",
-                        controller: passwordController,
-                        obscureText: true,
-                      ),
-                      InputFile(
-                        label: "Confirm Password",
-                        controller: confirmPasswordController,
-                        obscureText: true,
-                      ),
-
-                      const SizedBox(height: 25),
-
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.blue,
+                  Container(
+                    padding: EdgeInsets.all(25),
+                    margin: EdgeInsets.symmetric(horizontal: 25),
+                    decoration: BoxDecoration(color: Colors.black),
+                    child: Column(
+                      children: [
+                        InputFile(
+                          label: "First Name",
+                          controller: firstNameController,
                         ),
-                        child: Center(
-                          child: Text(
-                            "REGISTER",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
+                        InputFile(
+                          label: "Last Name",
+                          controller: lastNameController,
+                        ),
+                        InputFile(
+                          label: "Phone Number",
+                          controller: phoneNumberController,
+                        ),
+                        InputFile(
+                            label: "Email",
+                            controller: emailController
+                        ),
+                        InputFile(
+                          label: "Password",
+                          controller: passwordController,
+                          obscureText: true,
+                        ),
+                        InputFile(
+                          label: "Confirm Password",
+                          controller: confirmPasswordController,
+                          obscureText: true,
+                        ),
+
+                        const SizedBox(height: 25),
+
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.blue,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "REGISTER",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
-                      ),
 
-                      const SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Text(
-                          "Already have an account? Login",
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                        GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: Text(
+                            "Already have an account? Login",
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
