@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:interview_demo_app/auth/login.dart';
+import 'package:interview_demo_app/customer/profile.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: ProfilePage(),
     );
   }
 }

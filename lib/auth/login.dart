@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:interview_demo_app/auth/register.dart';
-import 'package:interview_demo_app/customer/home.dart';
+import 'package:interview_demo_app/customer/profile.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -54,7 +54,7 @@ class LoginPage extends StatelessWidget {
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => HomePage()),
+                                  MaterialPageRoute(builder: (context) => ProfilePage()),
                                 );
                               },
                               child: Text(

@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 10),
 
                   Text(
-                    "Tsh ${food["price"]}",
+                    "Tsh ${food["price"]!}",
                     style: TextStyle(
                       color: Colors.green,
                       fontWeight: FontWeight.bold,
