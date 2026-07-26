@@ -12,20 +12,11 @@ class OrdersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-        title: Text(
-          "Orders History",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
       body: ListView.builder(
         padding: EdgeInsets.all(15),
         itemCount: foods.length,
         itemBuilder: (context, index) {
           final food = foods[index];
-
           return Card(
             margin: EdgeInsets.symmetric(vertical: 10),
             shape: RoundedRectangleBorder(

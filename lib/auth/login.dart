@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:interview_demo_app/auth/register.dart';
-import 'package:interview_demo_app/customer/profile.dart';
+import 'package:interview_demo_app/customer/home.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(25),
                     margin: EdgeInsets.symmetric(horizontal: 25),
-                    decoration: BoxDecoration(color: Colors.black),
+                    decoration: BoxDecoration(color: Colors.white),
                     child: Column(
                       children: [
                         CustomTextField(
@@ -54,7 +54,7 @@ class LoginPage extends StatelessWidget {
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                                  MaterialPageRoute(builder: (context) => HomePage()),
                                 );
                               },
                               child: Text(
@@ -81,7 +81,7 @@ class LoginPage extends StatelessWidget {
                           child: Text(
                             "Don't have an account? Register",
                             style: TextStyle(
-                              color: Colors.white70,
+                              color: Colors.blue,
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
@@ -119,12 +119,12 @@ class CustomTextField extends StatelessWidget {
       obscureText: obscureText,
       autocorrect: false,
       enableSuggestions: false,
-      style: TextStyle(color: Colors.white),
+      style: TextStyle(color: Colors.black87),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.white54),
+        hintStyle: TextStyle(color: Colors.grey),
         filled: true,
-        fillColor: Colors.grey,
+        fillColor: Colors.grey.shade200,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,

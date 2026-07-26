@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:interview_demo_app/auth/login.dart';
 
-class ProfilePage extends StatelessWidget{
+class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   final String fullName = "Aloyce Kimata";
@@ -11,15 +11,6 @@ class ProfilePage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-        title: Text(
-          "Account Information",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
       body: Padding(
         padding: EdgeInsets.all(22),
         child: Column(

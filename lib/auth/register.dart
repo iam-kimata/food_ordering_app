@@ -26,7 +26,7 @@ class RegisterPage extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(25),
                     margin: EdgeInsets.symmetric(horizontal: 25),
-                    decoration: BoxDecoration(color: Colors.black),
+                    decoration: BoxDecoration(color: Colors.white),
                     child: Column(
                       children: [
                         InputFile(
@@ -83,7 +83,7 @@ class RegisterPage extends StatelessWidget {
                           child: Text(
                             "Already have an account? Login",
                             style: TextStyle(
-                              color: Colors.white70,
+                              color: Colors.blue,
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
@@ -118,13 +118,12 @@ class InputFile extends StatelessWidget {
   Widget build(BuildContext context) {
     final decoration = InputDecoration(
       filled: true,
-      fillColor: Colors.grey,
+      fillColor: Colors.grey.shade200,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,
       ),
     );
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -134,7 +133,7 @@ class InputFile extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black87,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -147,7 +146,7 @@ class InputFile extends StatelessWidget {
           obscureText: obscureText,
           autocorrect: false,
           enableSuggestions: false,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black87),
           decoration: decoration,
         ),
       ],
