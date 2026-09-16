@@ -4,7 +4,7 @@ import 'package:interview_demo_app/customer/profile.dart';
 import 'package:interview_demo_app/bottom_nav_bar.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required String token});
 
   @override
   State<HomePage> createState() => _HomePageState();

@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:interview_demo_app/config/api_config.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
+  @override
+  RegisterPageState createState() => RegisterPageState();
+}
+
+class RegisterPageState extends State<RegisterPage> {
+  bool isLoading = false;
 
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -99,6 +109,75 @@ class RegisterPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> registerUser() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final url = Uri.parse('${ApiConfig.baseUrl}/register');
+    final body = json.encode({
+      'firstName': firstNameController.text,
+      'lastName': lastNameController.text,
+      'phoneNumber': phoneNumberController.text,
+      'email': emailController.text,
+      'password': passwordController.text,
+      'confirmPassword': confirmPasswordController.text,
+    });
+
+    try {
+      final response = await http.post(url,
+        headers: {'Content-Type': 'application/json'}, body: body);
+
+      if (response.statusCode == 201) {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("Success"),
+            content: Text("Account created successfully"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: Text("OK"),
+              ),
+            ],
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("Failed"),
+            content: Text("Failed to register: ${response.body}"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: Text("OK"),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("Error"),
+          content: Text("Error: $e"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }
 

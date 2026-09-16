@@ -1,12 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:interview_demo_app/auth/register.dart';
 import 'package:interview_demo_app/customer/home.dart';
+import 'package:interview_demo_app/config/api_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
+  Future<void> signUserIn(BuildContext context) async {
+    String username = usernameController.text;
+    String password = passwordController.text;
+
+    var url = Uri.parse('${ApiConfig.baseUrl}/login');
+    try {
+      var response = await http.post(
+        url,
+        body: {
+          'email': username,
+          'password': password,
+        },
+        headers: {
+          'Accept': 'application-json'
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        String token = responseData['token'];
+        int id = responseData['user']['id'];
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
+        await prefs.setInt('userId', id);
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage(token: token),
+          ),
+        );
+      } else {
+        var errorData = json.decode(response.body);
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Error"),
+            content: Text("Login Failed: ${errorData['message']}"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text("OK"),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (error) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Error"),
+          content: Text("An Error occurred: $error"),
+          actions:[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +122,7 @@ class LoginPage extends StatelessWidget {
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => HomePage()),
+                                  MaterialPageRoute(builder: (context) => HomePage(token: '',)),
                                 );
                               },
                               child: Text(
