@@ -1,22 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:interview_demo_app/config/api_config.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class OrdersPage extends StatelessWidget {
-  OrdersPage({super.key});
+class OrdersPage extends StatefulWidget {
+  final String token;
+  const OrdersPage({super.key, required this.token});
 
-  final List<Map<String, String>> foods = [
-    { "name": "Burger", "description": "Juicy beef burger with cheese", "price": "8000", "dateTime": "27/06/2026 06:23" },
-    { "name": "Pizza", "description": "Cheese pizza with toppings", "price": "12000", "dateTime": "04/05/2026 14:23" },
-    { "name": "Chicken", "description": "Fried crispy chicken", "price": "10000", "dateTime": "05/07/2026 12:23" },
-  ];
+  @override
+  State<OrdersPage> createState() => _OrdersPageState();
+}
+
+class _OrdersPageState extends State<OrdersPage> {
+  List<dynamic> _orderHistoryDetails = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchOrderHistoryDetails();
+  }
+
+  Future<void> fetchOrderHistoryDetails() async {
+    final response = await http.get(
+      Uri.parse('${ApiConfig.baseUrl}/orderHistoryDetails'),
+      headers: {'Authorization': 'Bearer ${widget.token}'},
+    );
+
+    final data = jsonDecode(response.body);
+
+    setState(() {
+      _orderHistoryDetails = data['orders_menus'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
         padding: EdgeInsets.all(15),
-        itemCount: foods.length,
+        itemCount: _orderHistoryDetails.length,
         itemBuilder: (context, index) {
-          final food = foods[index];
+          final food = _orderHistoryDetails[index];
           return Card(
             margin: EdgeInsets.symmetric(vertical: 10),
             shape: RoundedRectangleBorder(

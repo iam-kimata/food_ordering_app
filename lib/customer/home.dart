@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:interview_demo_app/customer/orders.dart';
 import 'package:interview_demo_app/customer/profile.dart';
 import 'package:interview_demo_app/bottom_nav_bar.dart';
+import 'package:interview_demo_app/config/api_config.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required String token});
+  final String token;
+  const HomePage({super.key, required this.token});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -13,15 +17,48 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
-  final List<Map<String, String>> foods = [
-    { "name": "Burger", "description": "Juicy beef burger with cheese", "price": "8000" },
-    { "name": "Pizza", "description": "Cheese pizza with toppings", "price": "12000" },
-    { "name": "Chicken", "description": "Fried crispy chicken", "price": "10000" },
-  ];
+  List<dynamic> _foodMenusData = [];
+  int? foodMenuId;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchFoodMenusDetails();
+  }
+
+  Future<void> fetchFoodMenusDetails() async {
+    final response = await http.get(
+      Uri.parse('${ApiConfig.baseUrl}/foodMenus'),
+      headers: {'Authorization': 'Bearer ${widget.token}'},
+    );
+
+    final data = jsonDecode(response.body);
+
+    setState(() {
+      _foodMenusData = data['food_menus'];
+    });
+  }
+
+  Future<void> orderNow() async {
+    final response = await http.post(
+      Uri.parse('${ApiConfig.baseUrl}/orderNow'),
+      headers: {
+        'Authorization': 'Bearer ${widget.token}',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({'food_menu_id': foodMenuId,}),
+    );
+
+    print(response.body);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> pages = [_buildHome(), OrdersPage(), ProfilePage()];
+    final List<Widget> pages = [
+      _buildHome(_foodMenusData),
+      OrdersPage(token: ''),
+      ProfilePage()
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +86,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildHome() {
+  Widget _buildHome(dynamic foods) {
     return ListView.builder(
       padding: const EdgeInsets.all(15),
       itemCount: foods.length,
