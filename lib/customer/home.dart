@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
     final List<Widget> pages = [
       _buildHome(_foodMenusData),
       OrdersPage(token: ''),
-      ProfilePage()
+      ProfilePage(token: ''),
     ];
 
     return Scaffold(

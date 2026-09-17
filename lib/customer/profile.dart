@@ -1,12 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:interview_demo_app/auth/login.dart';
+import 'package:interview_demo_app/config/api_config.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfilePage extends StatefulWidget {
+  final String token;
+  const ProfilePage({super.key, required this.token});
 
-  final String fullName = "Aloyce Kimata";
-  final String phoneNumber = "0784132299";
-  final String email = "kimataaloyce44@gmail.com";
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  Map<String, dynamic> userData = {};
+
+  @override
+  void initState() {
+    super.initState();
+
+    _fetchUserData().then((data) {
+      setState(() {
+        userData = data;
+      });
+    });
+  }
+
+  Future<Map<String, dynamic>> _fetchUserData() async {
+    final token = widget.token;
+    final response = await http.get(
+      Uri.parse('${ApiConfig.baseUrl}/user/information'),
+      headers: {"Authorization": "Bearer $token"},
+    );
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return data;
+    } else {
+      throw Exception('Failed to load user data');
+    }
+  }
+
+  Future<void> _logout() async {
+    final token = widget.token;
+    final response = await http.post(
+      Uri.parse('${ApiConfig.baseUrl}/logout'),
+      headers: {"Authorization": "Bearer $token"},
+    );
+
+    if (response.statusCode == 200) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to logout')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +90,7 @@ class ProfilePage extends StatelessWidget {
 
             itemProfile(
               "Full Name",
-              fullName,
+              userData['fullName'],
               Icons.person_outline,
             ),
 
@@ -47,7 +98,7 @@ class ProfilePage extends StatelessWidget {
 
             itemProfile(
               "Phone Number",
-              phoneNumber,
+              userData['phoneNumber'],
               Icons.phone_outlined,
             ),
 
@@ -55,7 +106,7 @@ class ProfilePage extends StatelessWidget {
 
             itemProfile(
               "Email",
-              email,
+              userData['email'],
               Icons.mail_outline,
             ),
 
@@ -64,12 +115,7 @@ class ProfilePage extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  );
-                },
+                onPressed: _logout,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.redAccent,
                   padding: EdgeInsets.symmetric(vertical: 20),
